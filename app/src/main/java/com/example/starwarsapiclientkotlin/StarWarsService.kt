@@ -8,6 +8,8 @@ import retrofit2.http.Path
 interface StarWarsService {
     @GET("people/{id}")
     fun getById(@Path("id") id: Long?): Call<People?>?
+    @GET("people/")
+    fun getAll(): Call<PeopleList>
     /*
     @GET("users/{user}/repos")
     fun listRepos(@Path("user") user: String?): Call<List<People?>?>?

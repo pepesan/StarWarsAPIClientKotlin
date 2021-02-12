@@ -12,9 +12,28 @@ import retrofit2.Response
 
 class StarWarsViewModel(val service: StarWarsService) : ViewModel() {
 
-    var selectedItem: MutableLiveData<People>? = null
-    init {
-        selectedItem?.value = People()
+    val selectedItem: MutableLiveData<People> by lazy {
+        MutableLiveData<People>()
+    }
+    val itemList: MutableLiveData<PeopleList> by lazy {
+        MutableLiveData<PeopleList>()
+    }
+
+    fun getPeople(){
+        val response = service.getAll()
+        Log.d("app"," list response: $response")
+        response.enqueue(object : Callback<PeopleList> {
+
+            override fun onResponse(call: Call<PeopleList>, response: Response<PeopleList>) {
+                val respuesta = response.body()
+                Log.d("app","Respuesta: $respuesta")
+                itemList.setValue(respuesta)
+            }
+
+            override fun onFailure(call: Call<PeopleList>, t: Throwable) {
+                Log.d("app","Error: Respuesta: $t")
+            }
+        })
     }
 
     fun getPeopleById(id:Long) {
@@ -24,7 +43,7 @@ class StarWarsViewModel(val service: StarWarsService) : ViewModel() {
             override fun onResponse(call: Call<People?>?, response: Response<People?>?){
                 val respuesta = response?.body()
                 Log.d("app","Respuesta: $respuesta")
-                selectedItem?.value= respuesta
+                selectedItem.setValue( respuesta)
             }
 
             /**
