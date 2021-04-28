@@ -27,7 +27,7 @@ class StarWarsViewModel(val service: StarWarsService) : ViewModel() {
             override fun onResponse(call: Call<PeopleList>, response: Response<PeopleList>) {
                 val respuesta = response.body()
                 Log.d("app","Respuesta: $respuesta")
-                itemList.setValue(respuesta)
+                itemList.value = respuesta
             }
 
             override fun onFailure(call: Call<PeopleList>, t: Throwable) {
@@ -43,7 +43,7 @@ class StarWarsViewModel(val service: StarWarsService) : ViewModel() {
             override fun onResponse(call: Call<People?>?, response: Response<People?>?){
                 val respuesta = response?.body()
                 Log.d("app","Respuesta: $respuesta")
-                selectedItem.setValue( respuesta)
+                selectedItem.value = respuesta
             }
 
             /**
